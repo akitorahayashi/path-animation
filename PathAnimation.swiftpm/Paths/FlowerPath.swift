@@ -15,6 +15,8 @@ struct FlowerPath: Shape, PathProtocol {
         DesignConfig(lineWidth: 4.0)
     }
 
+    var aspectRatio: CGFloat { 1.0 }
+
     func path(in rect: CGRect) -> Path {
         var path = Path()
         let center = CGPoint(x: rect.midX, y: rect.midY)

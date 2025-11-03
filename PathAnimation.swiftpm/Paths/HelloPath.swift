@@ -15,6 +15,8 @@ struct HelloPath: Shape, PathProtocol {
         DesignConfig(lineWidth: 2.0)
     }
 
+    var aspectRatio: CGFloat { 16.0 / 9.0 }
+
     func path(in rect: CGRect) -> Path {
         var path = Path()
         let width = rect.size.width

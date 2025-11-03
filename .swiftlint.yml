@@ -7,13 +7,12 @@
 # Analysis Targets
 #-------------------------------------------------------------------
 included:
-  - Sources
+  - PathAnimation.swiftpm
 
 excluded:
   - .git
   - .build
   - DerivedData
-  - Sources/HelloFrameAnimation/.build
   - .github
   - Carthage
   - build
@@ -28,6 +27,7 @@ disabled_rules:
   - line_length # Line length is customized separately
   - trailing_newline # Ignore trailing newlines
   - trailing_comma # Disabled because controlled by SwiftFormat
+  - file_length # Allow long files for complex path definitions
 
 opt_in_rules:
   - empty_count # Use isEmpty instead of count == 0
