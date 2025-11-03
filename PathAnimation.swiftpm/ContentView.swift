@@ -9,7 +9,7 @@ struct ContentView: View {
     @State private var isAnimating = false
     @State private var currentPath: any PathProtocol = PathProvider.allPaths[0]
     @State var isMenuOpen = false
-    
+
     var body: some View {
         ZStack {
             NavigationStack {
@@ -26,7 +26,11 @@ struct ContentView: View {
                                     startPoint: .leading,
                                     endPoint: .trailing
                                 ),
-                                style: StrokeStyle(lineWidth: currentPath.designConfig.lineWidth, lineCap: .round, lineJoin: .round)
+                                style: StrokeStyle(
+                                    lineWidth: currentPath.designConfig.lineWidth,
+                                    lineCap: .round,
+                                    lineJoin: .round
+                                )
                             )
 
                         if !isAnimating {

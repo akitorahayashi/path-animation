@@ -1,25 +1,25 @@
 import SwiftUI
 
-struct PathProvider {
+enum PathProvider {
     static let allPaths: [any PathProtocol] = [
         FlowerPath(),
         StarPath(),
         HelloPath(),
-        WorldPath()
+        WorldPath(),
     ]
 
     static func icon(for path: any PathProtocol) -> String {
         switch path.name {
-        case "Flower":
-            return "flower"
-        case "Star":
-            return "star"
-        case "Hello":
-            return "hand.wave"
-        case "World":
-            return "globe"
-        default:
-            return "questionmark"
+            case "Flower":
+                "camera.macro"
+            case "Star":
+                "star"
+            case "Hello":
+                "hand.wave"
+            case "World":
+                "globe"
+            default:
+                "questionmark"
         }
     }
 }

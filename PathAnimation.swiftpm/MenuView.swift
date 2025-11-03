@@ -43,7 +43,7 @@ struct MenuView: View {
                 .foregroundColor(.secondary)
                 .padding()
             }
-            .padding(.trailing, maxWidth/4)
+            .padding(.trailing, maxWidth / 4)
             .offset(x: isOpen ? 0 : -maxWidth)
         }
     }

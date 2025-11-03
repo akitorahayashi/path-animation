@@ -2,7 +2,7 @@ import SwiftUI
 
 struct FlowerPath: Shape, PathProtocol {
     var name: String { "Flower" }
-    
+
     var animationConfig: AnimationConfig {
         AnimationConfig(
             duration: 4.0,

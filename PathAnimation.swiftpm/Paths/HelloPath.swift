@@ -2,7 +2,7 @@ import SwiftUI
 
 struct HelloPath: Shape, PathProtocol {
     var name: String { "Hello" }
-    
+
     var animationConfig: AnimationConfig {
         AnimationConfig(
             duration: 5.0,
@@ -14,6 +14,7 @@ struct HelloPath: Shape, PathProtocol {
     var designConfig: DesignConfig {
         DesignConfig(lineWidth: 2.0)
     }
+
     func path(in rect: CGRect) -> Path {
         var path = Path()
         let width = rect.size.width
