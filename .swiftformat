@@ -16,7 +16,7 @@
 --exclude build
 --exclude xcbuild
 --exclude **/*.generated.swift
---exclude Sources/HelloFrameAnimation/.build
+--exclude PathAnimation.swiftpm/.build
 
 #-------------------------------------------------------------------
 # Indentation & Spacing

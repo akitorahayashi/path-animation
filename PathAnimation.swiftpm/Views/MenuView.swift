@@ -4,7 +4,7 @@ struct MenuView: View {
     @Binding var isOpen: Bool
     @Binding var currentPath: any PathProtocol
     private let maxWidth = UIScreen.main.bounds.width
-    
+
     var body: some View {
         ZStack {
             Color.black
