@@ -95,7 +95,7 @@ struct ContentView: View {
         }
 
         // Wait for the forward animation to complete
-        try await Task.sleep(nanoseconds: UInt64(currentPath.animationConfig.duration * 1_000_000_000))
+        try await Task.sleep(for: .seconds(currentPath.animationConfig.duration))
 
         let forwardEndTime = CFAbsoluteTimeGetCurrent()
         guard isAnimatingForward else {
@@ -107,7 +107,7 @@ struct ContentView: View {
         print("\(forwardEndTime): Forward animation visually completed. Starting delay.")
 
         // Wait for the delay
-        try await Task.sleep(nanoseconds: UInt64(currentPath.animationConfig.delay * 1_000_000_000))
+        try await Task.sleep(for: .seconds(currentPath.animationConfig.delay))
 
         guard isAnimatingForward, isAnimating else {
             print(
@@ -127,7 +127,7 @@ struct ContentView: View {
         }
 
         // Wait for the return animation to complete
-        try await Task.sleep(nanoseconds: UInt64(currentPath.animationConfig.duration * 1_000_000_000))
+        try await Task.sleep(for: .seconds(currentPath.animationConfig.duration))
 
         guard !isAnimatingForward, isAnimating else {
             print(
