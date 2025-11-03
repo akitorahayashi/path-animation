@@ -47,7 +47,13 @@ struct ContentView: View {
                     print("\(time): onTapGesture - Tap detected. isAnimating: \(isAnimating)")
                     if !isAnimating {
                         print("\(time): onTapGesture - Calling startAnimation.")
-                        startAnimation()
+                        Task {
+                            do {
+                                try await startAnimation()
+                            } catch {
+                                print("Animation cancelled: \(error)")
+                            }
+                        }
                     }
                 }
                 .toolbar {
@@ -67,7 +73,7 @@ struct ContentView: View {
         }
     }
 
-    func startAnimation() {
+    func startAnimation() async throws {
         let startTime = CFAbsoluteTimeGetCurrent()
         guard !isAnimating else {
             print("\(startTime): startAnimation - Already animating, returning.")
@@ -88,51 +94,52 @@ struct ContentView: View {
             drawProgress = 1.0
         }
 
-        // Manually simulate completion for iOS versions prior to 17 by delaying for the duration
-        DispatchQueue.main.asyncAfter(deadline: .now() + currentPath.animationConfig.duration) {
-            let forwardEndTime = CFAbsoluteTimeGetCurrent()
-            guard isAnimatingForward else {
-                print(
-                    "\(forwardEndTime): Forward animation completion called, but no longer animating forward. Ignoring."
-                )
-                return
-            }
-            print("\(forwardEndTime): Forward animation visually completed. Starting delay.")
+        // Wait for the forward animation to complete
+        try await Task.sleep(nanoseconds: UInt64(currentPath.animationConfig.duration * 1_000_000_000))
 
-            DispatchQueue.main.asyncAfter(deadline: .now() + currentPath.animationConfig.delay) {
-                guard isAnimatingForward, isAnimating else {
-                    print(
-                        "\(CFAbsoluteTimeGetCurrent()): Delay finished, but animation state changed. Ignoring return trigger."
-                    )
-                    return
-                }
+        let forwardEndTime = CFAbsoluteTimeGetCurrent()
+        guard isAnimatingForward else {
+            print(
+                "\(forwardEndTime): Forward animation completion called, but no longer animating forward. Ignoring."
+            )
+            return
+        }
+        print("\(forwardEndTime): Forward animation visually completed. Starting delay.")
 
-                let delayEndTime = CFAbsoluteTimeGetCurrent()
-                print("\(delayEndTime): Delay finished. Starting return animation.")
+        // Wait for the delay
+        try await Task.sleep(nanoseconds: UInt64(currentPath.animationConfig.delay * 1_000_000_000))
 
-                isAnimatingForward = false
+        guard isAnimatingForward, isAnimating else {
+            print(
+                "\(CFAbsoluteTimeGetCurrent()): Delay finished, but animation state changed. Ignoring return trigger."
+            )
+            return
+        }
 
-                withAnimation(.easeInOut(duration: currentPath.animationConfig.duration)) {
-                    print("\(delayEndTime): Applying return animation to 0.0.")
-                    drawProgress = 0.0
-                }
+        let delayEndTime = CFAbsoluteTimeGetCurrent()
+        print("\(delayEndTime): Delay finished. Starting return animation.")
 
-                // Simulate completion of the return animation
-                DispatchQueue.main.asyncAfter(deadline: .now() + currentPath.animationConfig.duration) {
-                    guard !isAnimatingForward, isAnimating else {
-                        print(
-                            "\(CFAbsoluteTimeGetCurrent()): Return animation completion called, but state is unexpected. Ignoring reset."
-                        )
-                        return
-                    }
-                    let returnEndTime = CFAbsoluteTimeGetCurrent()
-                    print("\(returnEndTime): Return animation visually completed. Animation cycle complete.")
-                    isAnimatingForward = true
-                    withAnimation {
-                        isAnimating = false
-                    }
-                }
-            }
+        isAnimatingForward = false
+
+        withAnimation(.easeInOut(duration: currentPath.animationConfig.duration)) {
+            print("\(delayEndTime): Applying return animation to 0.0.")
+            drawProgress = 0.0
+        }
+
+        // Wait for the return animation to complete
+        try await Task.sleep(nanoseconds: UInt64(currentPath.animationConfig.duration * 1_000_000_000))
+
+        guard !isAnimatingForward, isAnimating else {
+            print(
+                "\(CFAbsoluteTimeGetCurrent()): Return animation completion called, but state is unexpected. Ignoring reset."
+            )
+            return
+        }
+        let returnEndTime = CFAbsoluteTimeGetCurrent()
+        print("\(returnEndTime): Return animation visually completed. Animation cycle complete.")
+        isAnimatingForward = true
+        withAnimation {
+            isAnimating = false
         }
     }
 
