@@ -1,8 +1,5 @@
 import SwiftUI
 
-// Define the target aspect ratio here
-private let targetAspectRatio: CGFloat = 16.0 / 9.0 // Example: 16:9. Adjust if needed.
-
 struct ContentView: View {
     @State private var drawProgress: CGFloat = 0.0
     @State private var isAnimatingForward = true
@@ -146,8 +143,8 @@ struct ContentView: View {
         var fittingWidth: CGFloat
         var fittingHeight: CGFloat
 
-        let heightBasedOnWidth = availableWidth / targetAspectRatio
-        let widthBasedOnHeight = availableHeight * targetAspectRatio
+        let heightBasedOnWidth = availableWidth / currentPath.aspectRatio
+        let widthBasedOnHeight = availableHeight * currentPath.aspectRatio
 
         if heightBasedOnWidth <= availableHeight {
             fittingWidth = availableWidth
