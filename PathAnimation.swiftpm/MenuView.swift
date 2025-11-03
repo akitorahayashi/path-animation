@@ -18,48 +18,17 @@ struct MenuView: View {
             ZStack {
                 List {
                     Section {
-                        Button {
-                            currentPath = FlowerPath()
-                            withAnimation(.easeInOut(duration: 0.3)) {
-                                isOpen = false
-                            }
-                        } label: {
-                            HStack {
-                                Image(systemName: "flower")
-                                Text("Flower")
-                            }
-                        }
-                        Button {
-                            currentPath = StarPath()
-                            withAnimation(.easeInOut(duration: 0.3)) {
-                                isOpen = false
-                            }
-                        } label: {
-                            HStack {
-                                Image(systemName: "star")
-                                Text("Star")
-                            }
-                        }
-                        Button {
-                            currentPath = HelloPath()
-                            withAnimation(.easeInOut(duration: 0.3)) {
-                                isOpen = false
-                            }
-                        } label: {
-                            HStack {
-                                Image(systemName: "hand.wave")
-                                Text("Hello")
-                            }
-                        }
-                        Button {
-                            currentPath = WorldPath()
-                            withAnimation(.easeInOut(duration: 0.3)) {
-                                isOpen = false
-                            }
-                        } label: {
-                            HStack {
-                                Image(systemName: "globe")
-                                Text("World")
+                        ForEach(PathProvider.allPaths.indices, id: \.self) { index in
+                            Button {
+                                currentPath = PathProvider.allPaths[index]
+                                withAnimation(.easeInOut(duration: 0.3)) {
+                                    isOpen = false
+                                }
+                            } label: {
+                                HStack {
+                                    Image(systemName: PathProvider.icon(for: PathProvider.allPaths[index]))
+                                    Text(PathProvider.allPaths[index].name)
+                                }
                             }
                         }
                     }
